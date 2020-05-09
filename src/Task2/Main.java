@@ -7,41 +7,75 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) {
-        int firstNum = 0;
-        int secondNum = 0;
-        int GCD;
-        int SCM;
-        boolean isCorrectInput = false;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        while (!isCorrectInput)
+    public static void main(String[] args) {
+        int number1;
+        int number2;
+        int gcd; //greatest common divisor
+        int lcm; //lowest common multiple
+
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)))
         {
-            isCorrectInput = true;
-            try
-            {
-                System.out.println("Enter first integer number:");
-                firstNum = Integer.parseInt(reader.readLine());
-                System.out.println("Enter second integer number:");
-                secondNum = Integer.parseInt(reader.readLine());
-            } catch (IOException e)
-            {
-                System.out.println("!!!Input-output exception!!!");
-            } catch (NumberFormatException e)
-            {
-                System.out.println("!!!Number should be integer!!!");
-                isCorrectInput = false;
-            }
-            if (firstNum <= 0 || secondNum <= 0)
-            {
-                System.out.println("!!!Number should be > 0!!!");
-                isCorrectInput = false;
-            }
+            number1 = getNumber(reader);
+            number2 = getNumber(reader);
+        } catch (IOException e)
+        {
+            System.out.println("---Input exception" + e.getMessage());
+            return;
         }
-        GCD = getGCD(firstNum, secondNum);
-        SCM = getSCM(firstNum, secondNum, GCD);
-        System.out.println("Greatest Common Divisor is: " + GCD);
-        System.out.println("Smallest Common Multiple is: " + SCM);
+
+        gcd = getGCD(number1, number2);
+        lcm = getSCM(number1, number2, gcd);
+        System.out.println("Greatest Common Divisor is: " + gcd);
+        System.out.println("Smallest Common Multiple is: " + lcm);
+    }
+
+    private static int getNumber(BufferedReader reader)
+    {
+        String line;
+        int number = 0;
+        boolean isCorrect;
+        do {
+            System.out.println("Enter an integer: ");
+            line = getUserInput(reader);
+            if (!isInteger(line))
+            {
+                System.out.println("Input should be integer. Try again.");
+                isCorrect = false;
+                continue;
+            }
+
+            isCorrect = true;
+            number = Integer.parseInt(line);
+            if (number < 0)
+            {
+                number = number * (-1);
+            }
+        } while (!isCorrect);
+        return number;
+    }
+
+    private static String getUserInput(BufferedReader reader) {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            System.out.println("---Input exception " + e.getMessage());
+        }
+        return "";
+    }
+
+    private static boolean isInteger(String line)
+    {
+        if (line == null)
+        {
+            return false;
+        }
+        try {
+            Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 
     private static int getNextSimpleNumber(int lastSimpleNumber)
@@ -118,7 +152,7 @@ public class Main {
         return GCD;
     }
 
-    private static int getSCM(int firstNum, int secondNum, int GCD) //Smallest Common Multiple (НОК)
+    private static int getSCM(int firstNum, int secondNum, int GCD) //Lowest Common Multiple (НОК)
     {
         return (firstNum * secondNum) / GCD;
     }

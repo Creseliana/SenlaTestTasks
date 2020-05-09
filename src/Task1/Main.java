@@ -7,105 +7,146 @@ import java.io.InputStreamReader;
 public class Main {
 
     public static void main(String[] args) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int userInput;
-        boolean isNextInput = true;
-        String userAnswer;
 
-        while (isNextInput)
-        {
-            userInput = getUserInput();
+        int userInput;
+        boolean isNextNumber = true;
+
+        while (isNextNumber) {
+            System.out.print("Enter an integer: ");
+            userInput = getUserNumber();
             checkIsNumberEvenOrOdd(userInput);
             checkIsNumberSimpleOrCompound(userInput);
-            System.out.println("Do you want to check another number? (Press Y to continue)");
-            try {
-                userAnswer = reader.readLine();
-                if (!userAnswer.equalsIgnoreCase("Y"))
-                {
-                    isNextInput = false;
-                }
-            } catch (IOException e) {
-                System.out.println("!!!Input-output exception!!!");
+
+            System.out.println("Do you want to continue?(Y/N)");
+            if (!askYesNo()) {
+                isNextNumber = false;
             }
         }
     }
 
-    private static int getUserInput()
-    {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        boolean isCorrectInput = false;
-        int userNumber = -1;
-
-        while (!isCorrectInput)
-        {
-            System.out.println("Enter number (number should be >= 0):");
-            try {
-                userNumber = Integer.parseInt(reader.readLine());
-            } catch (IOException e) {
-                System.out.println("!!!Input-output exception!!!");
-                continue;
-            } catch (NumberFormatException e)
-            {
-                System.out.println("!!!Input should be integer number!!!");
-                continue;
-            }
-            if (userNumber < 0)
-            {
-                System.out.println("!!!Number should be >= 0!!!");
-                continue;
-            }
-            isCorrectInput = true;
-        }
-        return userNumber;
-    }
-
-    private static void checkIsNumberEvenOrOdd(int number)
-    {
-        if (number == 0)
-        {
+    /**
+     * Method checks if number is even or odd.
+     * @param number number that should be checked
+     */
+    private static void checkIsNumberEvenOrOdd(int number) {
+        if (number == 0) {
             System.out.println("0 is neither even nor odd.");
-        } else if ((number % 2) == 0)
-        {
+        } else if ((number % 2) == 0) {
             System.out.println(number + " is even.");
-        } else if ((number % 2) != 0)
-        {
+        } else if ((number % 2) != 0) {
             System.out.println(number + " is odd.");
-        } else
-        {
-            System.out.println("!!!Can't check this number!!!");
+        } else {
+            System.out.println("---This number can't be checked.");
         }
     }
 
-    private static void checkIsNumberSimpleOrCompound(int number)
-    {
+    /**
+     * Method checks if number is simple or compound (only natural numbers).
+     * @param number number that should be checked
+     */
+    private static void checkIsNumberSimpleOrCompound(int number) {
         double numberSqrt = Math.sqrt(number);
 
-        if (number == 0)
-        {
-            System.out.println("0 isn't natural number.");
-        } else if (number == 1)
-        {
+        if (number < 0) {
+            System.out.println(number + " is not a natural number.");
+        } else if (number == 0) {
+            System.out.println("0 is not a natural number.");
+        } else if (number == 1) {
             System.out.println("1 is neither simple nor compound.");
-        } else if (number == 2)
-        {
+        } else if (number == 2) {
             System.out.println(number + " is simple.");
-        } else if ((number % 2) == 0)
-        {
+        } else if ((number % 2) == 0) {
             System.out.println(number + " is compound.");
-        } else if ((number % 5) == 0 && (number != 5))
-        {
+        } else if ((number % 5) == 0 && (number != 5)) {
             System.out.println(number + " is compound.");
-        } else if ((number % 2) != 0)
-        {
-            for (int i = 2; i <= numberSqrt; i++)
-            {
-                if ((number % i) == 0 && number != i)
-                {
+        } else if ((number % 2) != 0) {
+            for (int i = 2; i <= numberSqrt; i++) {
+                if ((number % i) == 0 && number != i) {
                     System.out.println(number + " is compound.");
                     return;
                 }
             }
             System.out.println(number + " is simple.");
         }
+    }
+
+    /**
+     * Method gets user input from console.
+     * @return string user input
+     * @throws IOException if an input or output exception occurred
+     */
+    private static String getUserInput() throws IOException {
+        String userInput;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        userInput = reader.readLine();
+
+        return userInput;
+    }
+
+    /**
+     * Method checks user's answer to the question with 2 possible answers. Method requests user input until it matches.
+     * @return true - if answer is positive, false - if answer is negative and if IO exception occurred
+     */
+    private static boolean askYesNo() {
+        String userInput;
+
+        do {
+            try {
+                userInput = getUserInput();
+            } catch (IOException e) {
+                return false;
+            }
+
+            if (userInput.equalsIgnoreCase("Y")) {
+                return true;
+            } else if (userInput.equalsIgnoreCase("N")) {
+                return false;
+            }
+        }
+        while (true);
+    }
+
+    /**
+     * Method checks if given line is integer.
+     * @param line line that should be checked
+     * @return true - if line is integer, false - if it is not
+     */
+    private static boolean isInteger(String line) {
+        if (line == null)
+        {
+            return false;
+        }
+        try {
+            Integer.parseInt(line);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Method gets user input, checks if it is a number. If it is not, then asks for the input again.
+     * @return user input number. If IO exception occurred it returns 0 (zero)
+     */
+    private static int getUserNumber() {
+        String userInput;
+        boolean isNumber = true;
+
+        do {
+            try {
+                userInput = getUserInput();
+
+                if (isInteger(userInput)) {
+                    return Integer.parseInt(userInput);
+                } else {
+                    System.out.println("Input should be integer. Try again.");
+                }
+            } catch (IOException e) {
+                System.out.println("---Number can't be got.");
+                isNumber = false;
+            }
+        } while (isNumber);
+        return 0;
     }
 }
