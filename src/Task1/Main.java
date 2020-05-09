@@ -73,7 +73,7 @@ public class Main {
     /**
      * Method gets user input from console.
      * @return string user input
-     * @throws IOException if an input or output exception occurred
+     * @throws IOException if an input or output exception has occurred
      */
     private static String getUserInput() throws IOException {
         String userInput;
@@ -86,7 +86,7 @@ public class Main {
 
     /**
      * Method checks user's answer to the question with 2 possible answers. Method requests user input until it matches.
-     * @return true - if answer is positive, false - if answer is negative and if IO exception occurred
+     * @return true - if answer is positive, false - if answer is negative and if IO exception has occurred
      */
     private static boolean askYesNo() {
         String userInput;
@@ -127,7 +127,7 @@ public class Main {
 
     /**
      * Method gets user input, checks if it is a number. If it is not, then asks for the input again.
-     * @return user input number. If IO exception occurred it returns 0 (zero)
+     * @return user input number. If IO exception has occurred it returns 0 (zero)
      */
     private static int getUserNumber() {
         String userInput;
