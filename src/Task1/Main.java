@@ -26,6 +26,7 @@ public class Main {
 
     /**
      * Method checks if number is even or odd.
+     *
      * @param number number that should be checked
      */
     private static void checkIsNumberEvenOrOdd(int number) {
@@ -42,6 +43,7 @@ public class Main {
 
     /**
      * Method checks if number is simple or compound (only natural numbers).
+     *
      * @param number number that should be checked
      */
     private static void checkIsNumberSimpleOrCompound(int number) {
@@ -72,6 +74,7 @@ public class Main {
 
     /**
      * Method gets user input from console.
+     *
      * @return string user input
      * @throws IOException if an input or output exception has occurred
      */
@@ -86,6 +89,7 @@ public class Main {
 
     /**
      * Method checks user's answer to the question with 2 possible answers. Method requests user input until it matches.
+     *
      * @return true - if answer is positive, false - if answer is negative and if IO exception has occurred
      */
     private static boolean askYesNo() {
@@ -109,12 +113,12 @@ public class Main {
 
     /**
      * Method checks if given line is integer.
+     *
      * @param line line that should be checked
      * @return true - if line is integer, false - if it is not
      */
     private static boolean isInteger(String line) {
-        if (line == null)
-        {
+        if (line == null) {
             return false;
         }
         try {
@@ -127,6 +131,7 @@ public class Main {
 
     /**
      * Method gets user input, checks if it is a number. If it is not, then asks for the input again.
+     *
      * @return user input number. If IO exception has occurred it returns 0 (zero)
      */
     private static int getUserNumber() {
